@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sentient & ROMA True/False Quiz</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    button {
+      background: #fff;
+      color: #333;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 45%;
+    }
+    button:hover {
+      background: #4CAF50;
+      color: white;
+    }
+    .progress-bar {
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 15px;
+      height: 10px;
+    }
+    .progress {
+      background: #4CAF50;
+      height: 100%;
+      width: 0;
+      transition: width 0.3s ease;
+    }
+    .result {
+      display: none;
+    }
+    .score {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+    .restart-btn {
+      background: #ff9800;
+      color: #fff;
+    }
+    @media (max-width: 480px) {
+      h1 { font-size: 20px; }
+      .question { font-size: 16px; }
+      button { font-size: 14px; padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sentient & ROMA Quiz 🧠</h1>
+    <div class="progress-bar"><div class="progress" id="progress"></div></div>
+    <div id="quiz">
+      <div class="question" id="question">Loading question...</div>
+      <div class="buttons">
+        <button onclick="answer(true)">True</button>
+        <button onclick="answer(false)">False</button>
+      </div>
+    </div>
+    <div class="result" id="result">
+      <div class="score" id="score"></div>
+      <button class="restart-btn" onclick="restartQuiz()">Restart Quiz</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "Pramod Viswanath is a Co-founder and Professor at Princeton.", a: true },
+      { q: "Sandeep Nailwal is also a Co-founder of Polygon.", a: true },
+      { q: "Himanshu Tyagi is a Professor at the Indian Institute of Science.", a: true },
+      { q: "Sensys is a closed-source AI ecosystem.", a: false },
+      { q: "Sewoong Oh is Director of AI Research and a Professor at University of Washington.", a: true },
+      { q: "ROMA stands for Recursive Open Meta-Agent.", a: true },
+      { q: "ROMA is a proprietary, closed-source framework.", a: false },
+      { q: "Dobby is an open-source model built with community feedback.", a: true },
+      { q: "Sentient Chat introduces Spaces to make workflows more complex.", a: false },
+      { q: "Open Deep Search splits reasoning, search, and calculation tasks.", a: true },
+      { q: "The GRID is the world’s largest network of intelligence.", a: true },
+      { q: "ROMA uses a recursive hierarchical structure to handle long-horizon tasks.", a: true },
+      { q: "ROMA Search achieved lower performance than Gemini 2.5 Pro on Seal-0 benchmark.", a: false },
+      { q: "Sentient Labs is based in San Francisco, USA.", a: true },
+      { q: "Dobby was one of the first models to prioritize human-like values.", a: true }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      if (currentQuestion < questions.length) {
+        document.getElementById('question').textContent = questions[currentQuestion].q;
+        updateProgress();
+      } else {
+        showResult();
+      }
+    }
+
+    function answer(userAnswer) {
+      if (questions[currentQuestion].a === userAnswer) {
+        score++;
+      }
+      currentQuestion++;
+      loadQuestion();
+    }
+
+    function updateProgress() {
+      const progress = document.getElementById('progress');
+      const percent = ((currentQuestion) / questions.length) * 100;
+      progress.style.width = percent + '%';
+    }
+
+    function showResult() {
+      document.getElementById('quiz').style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('score').textContent = `Your score: ${score} / ${questions.length}`;
+      document.getElementById('progress').style.width = '100%';
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById('quiz').style.display = 'block';
+      document.getElementById('result').style.display = 'none';
+      loadQuestion();
+    }
+
+    // Start
+    loadQuestion();
+  </script>
+</body>
+</html>
